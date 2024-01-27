@@ -1,0 +1,16 @@
+﻿.topbar-wrapper img[alt="Swagger UI"], .topbar-wrapper span {
+    visibility: hidden;
+}
+
+.topbar-wrapper .link:after {
+    color: #fff;
+    visibility: visible;
+    display: block;
+    position: absolute;
+    padding: 15px;
+}
+
+.swagger-ui .topbar {
+    background-color: green;
+    padding: 10px 0;
+}

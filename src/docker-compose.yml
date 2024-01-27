@@ -1,0 +1,27 @@
+version: '3.4'
+
+services:
+  mock-data:
+    build:
+      context: .
+      dockerfile: ./MockServer/Dockerfile
+    ports:
+      - 3000:3000
+    networks:
+      - verivox
+  
+  verivox-calculator:
+    build:
+      context: .
+      dockerfile: ./Presentation/Verivox.Calculator/Dockerfile
+    ports:
+      - 5000:80
+    environment:
+      - name=value
+      - TariffProviderUrl=http://mock-data:3000/api
+    networks:
+      - verivox
+
+networks:
+  verivox:
+    driver: bridge

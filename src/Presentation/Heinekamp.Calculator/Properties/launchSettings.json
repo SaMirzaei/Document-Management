@@ -1,0 +1,26 @@
+{
+  "profiles": {
+    "Heinekamp.Api": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "index.html",
+      "environmentVariables": {
+        "ASPNETCORE_URLS": "http://localhost:5001",
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "TariffProviderUrl": "http://localhost:3000/api"
+      },
+      "dotnetRunMessages": true,
+      "applicationUrl": "http://localhost:5202"
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchBrowser": true,
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/index.html",
+      "environmentVariables": {
+        "ASPNETCORE_URLS": "http://+:80"
+      },
+      "publishAllPorts": true
+    }
+  },
+  "$schema": "https://json.schemastore.org/launchsettings.json"
+}
