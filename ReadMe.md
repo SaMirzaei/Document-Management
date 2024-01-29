@@ -66,12 +66,3 @@ Front-App: http://localhost:3000
 
 - **[MIT license](http://opensource.org/licenses/mit-license.php)**
 - Copyright 2022 � <a href="https://www.heinekamp.com/" target="_blank">heinekamp</a>
-
-
-
-
-
-
--------- Front 
-cd heinekamp-app
-npm start
