@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Heinekamp.Application.Features.Documents.Commands.CreateDocument;
 using Heinekamp.Application.Features.Documents.Commands.CreateDocumentWithMultipleFile;
+using Heinekamp.Application.Features.Documents.Commands.DownloadDocument;
 using Heinekamp.Application.Features.Documents.Commands.ShareLink;
 using Heinekamp.Application.Features.Documents.Queries.GetAllDocuments;
 using Heinekamp.Application.Features.Documents.Queries.GetDocumentById;
@@ -38,6 +39,29 @@ public class DocumentsController : BaseApiController
         return Ok(result);
     }
 
+    [HttpGet("download/{documentId}")]
+    public async Task<IActionResult> DownloadDocument(int documentId)
+    {
+        try
+        {
+            var result = await Mediator.Send(new DownloadDocumentCommand
+            {
+                DocumentId = documentId
+            });
+
+            if (result.Data?.Stream is null)
+            {
+                return NotFound(result.Message);
+            }
+
+            return File(result.Data.Stream, result.Data.Mime, result.Data.FileName);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
+    }
+
     /// <summary>
     /// UploadDocument
     /// </summary>
@@ -69,7 +93,6 @@ public class DocumentsController : BaseApiController
             Items = models.Select(t => new Doc
             {
                 Name = t.Name,
-                //ContentType = t.ContentType,
                 File = t.File
             }).ToList()
         });

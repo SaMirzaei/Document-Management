@@ -15,6 +15,21 @@ public class HeinekampContext : DbContext
 
     public DbSet<ShareLink> ShareLinks { get; set; }
 
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<DocumentType>()
+            .HasMany(e => e.Documents)
+            .WithOne(e => e.DocumentType)
+            .HasForeignKey(e => e.DocumentTypeId)
+            .IsRequired();
+
+        modelBuilder.Entity<Document>()
+            .HasOne(e => e.DocumentType)
+            .WithMany(e => e.Documents)
+            .HasForeignKey(e => e.DocumentTypeId)
+            .IsRequired();
+    }
+
     public static void SeedData(HeinekampContext context)
     {
         context.Database.EnsureCreated();

@@ -251,3 +251,6 @@ paket-files/
 
 # Vs Code
 .vscode/
+
+# Attachements
+src/Presentation/Heinekamp.Api/wwwroot/Attachments/*

@@ -20,14 +20,16 @@ namespace Heinekamp.Application.Features.Documents.Commands.ShareLink
         {
             try
             {
-                // Implement logic to generate a share link with the specified expiry time
                 var shareLink = await _documentService.GenerateShareLink(request.DocumentId, request.ExpiryTime);
 
-                return new Response<string>(shareLink);
+                return new Response<string>
+                {
+                    Data = shareLink
+                };
             }
             catch
             {
-                throw new ApiExceptions("Can not save documentType!");
+                throw new ApiExceptions("Can not create share link!");
             }
         }
     }

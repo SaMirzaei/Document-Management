@@ -12,25 +12,28 @@ namespace Heinekamp.Application.Features.Documents.Commands.CreateDocument
     public class CreateDocumentCommandHandler : IRequestHandler<CreateDocumentCommand, Response<long>>
     {
         private readonly IDocumentService _documentService;
+        private readonly IDateTimeService _dateTimeService;
 
-        public CreateDocumentCommandHandler(IDocumentService documentService)
+        public CreateDocumentCommandHandler(
+            IDocumentService documentService,
+            IDateTimeService dateTimeService)
         {
             _documentService = documentService;
+            _dateTimeService = dateTimeService;
         }
 
         public async Task<Response<long>> Handle(CreateDocumentCommand request, CancellationToken cancellationToken)
         {
             try
             {
-                // Implement logic to handle document upload
                 var documentDTO = new DocumentDTO
                 {
                     Name = request.Name,
                     ContentType = request.ContentType,
                     Content = request.File.OpenReadStream().ToByteArray(),
-                    FileName = request.File.FileName
+                    FileName = request.File.FileName,
+                    CreatedAt = _dateTimeService.NowUtc
                 };
-                
                 
                 var documentId = await _documentService.UploadDocumentAsync(documentDTO);
 

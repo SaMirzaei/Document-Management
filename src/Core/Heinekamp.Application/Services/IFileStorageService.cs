@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.IO;
+using System.Threading.Tasks;
 
 namespace Heinekamp.Application.Services
 {
@@ -7,5 +8,7 @@ namespace Heinekamp.Application.Services
         Task<string> SaveFileAsync(string fileName, byte[] content);
 
         Task<byte[]> GetFileAsync(string fileName);
+
+        Stream GetFileStreamAsync(string fileName);
     }
 }

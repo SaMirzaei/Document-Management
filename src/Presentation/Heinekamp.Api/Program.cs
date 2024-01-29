@@ -21,7 +21,7 @@ builder.Services.AddCors(options =>
         policyBuilder =>
         {
             policyBuilder
-                .WithOrigins("http://localhost:3000");
+                .WithOrigins(Environment.GetEnvironmentVariable("FrontEndApplication") ?? throw new ArgumentNullException($"FrontEndApplication"));
         });
 });
 

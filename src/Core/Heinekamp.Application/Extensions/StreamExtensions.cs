@@ -11,11 +11,10 @@ namespace Heinekamp.Application.Extensions
         /// <returns></returns>
         public static byte[] ToByteArray(this Stream stream)
         {
-            using (MemoryStream memoryStream = new MemoryStream())
-            {
-                stream.CopyTo(memoryStream);
-                return memoryStream.ToArray();
-            }
+            using var memoryStream = new MemoryStream();
+
+            stream.CopyTo(memoryStream);
+            return memoryStream.ToArray();
         }
     }
 }

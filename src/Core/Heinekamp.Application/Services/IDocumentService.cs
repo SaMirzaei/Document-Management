@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Heinekamp.Domain.Entities;
+using System.IO;
 
 namespace Heinekamp.Application.Services
 {
@@ -18,5 +19,9 @@ namespace Heinekamp.Application.Services
         Task<IEnumerable<string>> GetDocumentTypes();
 
         Task<DocumentType> AddDocumentTypeAsync(DocumentType documentType);
+
+        Task<Stream> DownloadDocumentAsync(long documentId);
+
+        Task IncreaseDownload(long documentId);
     }
 }

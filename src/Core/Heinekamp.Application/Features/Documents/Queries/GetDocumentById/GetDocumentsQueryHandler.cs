@@ -20,15 +20,6 @@ namespace Heinekamp.Application.Features.Documents.Queries.GetDocumentById
         {
             var document = await _documentService.GetDocumentByIdAsync(request.DocumentId);
 
-            // Implement logic to map Document entity to a simplified DTO with necessary information
-            //var documentDTO = new
-            //{
-            //    document.Id,
-            //    document.Name,
-            //    document.ContentType,
-            //    // Add other properties as needed
-            //};
-
             return new Response<DocumentDTO>(document);
         }
     }

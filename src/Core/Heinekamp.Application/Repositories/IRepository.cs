@@ -9,12 +9,16 @@ namespace Heinekamp.Application.Repositories
     {
         Task<IEnumerable<T>> GetAllAsync();
 
-        Task<T> GetByIdAsync(long id);
+        Task<IEnumerable<T>> GetAllAsyncIncluding(params Expression<Func<T, object>>[] includeProperties);
+
+        Task<T> GetByIdAsync(long id, params Expression<Func<T, object>>[] includeProperties);
 
         Task<T> AddAsync(T entity);
 
         Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate);
 
         T FirstOrDefault(Expression<Func<T, bool>> predicate);
+
+        Task UpdateAsync(T entity);
     }
 }

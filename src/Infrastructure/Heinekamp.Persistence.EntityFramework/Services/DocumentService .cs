@@ -26,15 +26,15 @@ public class DocumentService : IDocumentService
 
     public async Task<IEnumerable<DocumentDTO>> GetDocumentsAsync()
     {
-        // Implement logic to retrieve documents from the repository and map to DTOs
-        var documents = await _documentRepository.GetAllAsync();
+        var documents = await _documentRepository.GetAllAsyncIncluding(t => t.DocumentType);
+
         return documents.Select(MapToDocumentDTO);
     }
 
     public async Task<DocumentDTO> GetDocumentByIdAsync(long documentId)
     {
-        // Implement logic to retrieve a document by ID from the repository and map to DTO
-        var document = await _documentRepository.GetByIdAsync(documentId);
+        var document = await _documentRepository.GetByIdAsync(documentId, t => t.DocumentType);
+        
         return MapToDocumentDTO(document);
     }
 
@@ -43,7 +43,8 @@ public class DocumentService : IDocumentService
         var document = new Document
         {
             Name = documentDTO.Name,
-            ContentType = documentDTO.ContentType
+            ContentType = documentDTO.ContentType,
+            CreatedAt = documentDTO.CreatedAt
         };
 
         var documentTypeId = GetDocumentTypeIdByName(documentDTO.ContentType);
@@ -63,11 +64,9 @@ public class DocumentService : IDocumentService
 
         if (document == null)
         {
-            throw new NullReferenceException("Document not found"); // Implement a custom exception for not found scenarios
-            //throw new NotFoundException("Document not found"); // Implement a custom exception for not found scenarios
+            throw new NullReferenceException("Document not found");
         }
 
-        // Generate a unique token or identifier for the document
         var shareToken = Guid.NewGuid().ToString();
 
         // Associate the token with the document and set the expiry time
@@ -78,12 +77,9 @@ public class DocumentService : IDocumentService
             ExpiryTime = DateTime.UtcNow.AddHours(expiryTime)
         };
 
-        // Save the share link to a repository or database
         await _shareLinkRepository.AddAsync(shareLink);
 
-        // Return the generated share link
-        //return $"{Request.Scheme}://{Request.Host}/api/documents/share/{shareToken}";
-        return $"/documents/share/{shareToken}";
+        return shareToken;
     }
 
     public async Task<IEnumerable<string>> GetDocumentTypes()
@@ -108,13 +104,40 @@ public class DocumentService : IDocumentService
 
         var newDocumentType = new DocumentType
         {
-            Name = documentType.Name,
-            // Add other properties as needed
+            Name = documentType.Name
         };
 
         var addedDocumentType = await _documentTypeRepository.AddAsync(newDocumentType);
 
         return addedDocumentType;
+    }
+
+    public async Task<Stream> DownloadDocumentAsync(long documentId)
+    {
+        var document = await _documentRepository.GetByIdAsync(documentId);
+
+        if (document == null)
+        {
+            return null;
+        }
+
+        var content = _fileStorageService.GetFileStreamAsync(document.FileName);
+
+        return content;
+    }
+
+    public async Task IncreaseDownload(long documentId)
+    {
+        var document = await _documentRepository.GetByIdAsync(documentId);
+
+        if (document == null)
+        {
+            return;
+        }
+
+        document.Downloads++;
+
+        await _documentRepository.UpdateAsync(document);
     }
 
     private DocumentDTO MapToDocumentDTO(Document document)
@@ -125,14 +148,23 @@ public class DocumentService : IDocumentService
             Name = document.Name,
             ContentType = document.ContentType,
             FileName = document.FileName,
-            Content = document.Content
+            Content = document.Content,
+            CreatedAt = document.CreatedAt,
+            Downloads = document.Downloads,
+            DocumentType = new DocumentTypeDTO
+            {
+                Id = document.DocumentTypeId,
+                Name = document.DocumentType.Name,
+                Icon = document.DocumentType.Icon,
+                Mime = document.DocumentType.Mime
+            }
         };
     }
 
     private long GetDocumentTypeIdByName(string typeName)
     {
-        // Implement logic to get DocumentType ID by name from the repository
-        var documentType = _documentTypeRepository.FirstOrDefault(x => x.Name == typeName);
+        var documentType = _documentTypeRepository.FirstOrDefault(x => x.Mime == typeName);
+
         return documentType?.Id ?? 0;
     }
 }

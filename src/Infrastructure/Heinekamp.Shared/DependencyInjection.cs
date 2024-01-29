@@ -8,7 +8,9 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddSharedServices(this IServiceCollection services)
     {
-        services.AddScoped<IFileStorageService, FileStorageService>();
+        services
+            .AddScoped<IFileStorageService, FileStorageService>()
+            .AddTransient<IDateTimeService, DateTimeService>();
 
         return services;
     }

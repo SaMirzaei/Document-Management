@@ -1,27 +1,31 @@
 version: '3.4'
 
 services:
-  mock-data:
+  heinekamp-api:
     build:
       context: .
-      dockerfile: ./MockServer/Dockerfile
+      dockerfile: ./Presentation/Heinekamp.Api/Dockerfile
     ports:
-      - 3000:3000
-    networks:
-      - verivox
-  
-  verivox-calculator:
-    build:
-      context: .
-      dockerfile: ./Presentation/Verivox.Calculator/Dockerfile
-    ports:
-      - 5000:80
+      - 8080:8080
     environment:
       - name=value
-      - TariffProviderUrl=http://mock-data:3000/api
+      # - FrontEndApplication=http://frontend-app:3000
+      - FrontEndApplication=http://localhost:3000
     networks:
-      - verivox
+      - heinekamp
+
+  frontend-app:
+    build:
+      context: .
+      dockerfile: ./front-end/heinekamp-app/Dockerfile
+    ports:
+      - 3000:3000
+    environment:
+      # - REACT_APP_BASE_URL=http://heinekamp-api:8080
+      - REACT_APP_BASE_URL=http://localhost:8080
+    networks:
+      - heinekamp
 
 networks:
-  verivox:
+  heinekamp:
     driver: bridge

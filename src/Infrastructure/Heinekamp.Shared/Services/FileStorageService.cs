@@ -32,4 +32,18 @@ public class FileStorageService : IFileStorageService
 
         return await File.ReadAllBytesAsync(filePath);
     }
+
+    public Stream GetFileStreamAsync(string fileName)
+    {
+        var filePath = Path.Combine(_fileStoragePath, fileName);
+
+        if (!File.Exists(filePath))
+        {
+            return null;
+        }
+
+        var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+
+        return stream;
+    }
 }

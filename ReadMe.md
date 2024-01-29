@@ -1,20 +1,26 @@
-# Verivox Product Calculator
+# Docs Manager
 
 > simple RESTful API return a json result of products
 
 ## Informations:
-- Mock Api has been implemented by **Nodejs**
-- **Verivox** Tariff Api has been implemented in **Asp.net Core 6 (LTS Version)**
-- Every request getting the tariff data from the Mock Api
+- The Front-end has been implemented by **ReactJs**
+- Api has been implemented in **Asp.net Core 8 (LTS Version)**
 
 **Badges will go here**
 
-- Dotnet 6 and C# 10
-- MediatR
-- Swashbuckle.AspNetCore
-- FluentAssertions
-- NSubstitute
-- xunit
+- Backend
+  - Dotnet 8 and C# 12
+  - MediatR
+  - Swashbuckle.AspNetCore
+  - FluentAssertions
+  - NSubstitute
+  - xunit
+- Front-End
+  - ReactJs
+  - bootstrap
+  - axios
+  - clipboard-copy
+  - reactstrap
 
 ---
 
@@ -22,7 +28,7 @@
 
 > If your `README` has a lot of info, section headers might be nice.
 
-- [Tariff API](#tariff-api)
+- [Api](#server-api)
   - [Table of Contents (Optional)](#table-of-contents-optional)
   - [Installation](#installation)
     - [Clone](#clone)
@@ -38,7 +44,7 @@
 
 ### Clone
 
-- Clone this repo to your local machine using `https://github.com/SaMirzaei/verivox.git`
+- Clone this repo to your local machine using `https://github.com/SaMirzaei/Document-Management.git`
 
 ### Setup
 
@@ -50,16 +56,16 @@ $ docker-compose -f ./docker-compose.yml up
 ```
 ### See Swagger Page
 
-Verivox.Calc-Api: http://localhost:5000/index.html
+Heinekamp-Api: http://localhost:8080/index.html
 <br />
-Mock-Api: http://localhost:3000/api
+Front-App: http://localhost:3000
 ---
 
 
 ## License
 
 - **[MIT license](http://opensource.org/licenses/mit-license.php)**
-- Copyright 2022 � <a href="http://verivox.de/" target="_blank">verivox.de/</a>
+- Copyright 2022 � <a href="https://www.heinekamp.com/" target="_blank">heinekamp</a>
 
 
 

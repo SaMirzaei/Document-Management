@@ -14,6 +14,10 @@ namespace Heinekamp.Domain.Entities
 
         public byte[] Content { get; set; }
 
-        public DateTime UploadDateTime { get; set; }
+        public DateTime CreatedAt { get; set; }
+
+        public int Downloads { get; set; }
+
+        public DocumentType DocumentType { get; set; } = null;
     }
 }
